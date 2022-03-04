@@ -10,16 +10,25 @@ import UIKit
 class ViewController: UIViewController {
     private var viewModel: FlickrViewModel!
 
+    @IBOutlet private weak var searchImage: UISearchBar!
+    let searchController = UISearchController(searchResultsController: nil)
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         viewModel = FlickrViewModel(view: self)          //initialize viewModel
-        viewModel.fetchData()
-
+        searchImage.delegate = self
     }
 
 
+}
+
+/* Search bar */
+extension ViewController: UISearchBarDelegate {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        viewModel.fetchData(text: searchText)
+        print("search for \(searchText)")
+    }
 }
 
 /* Conform to protocol */

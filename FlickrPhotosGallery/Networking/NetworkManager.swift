@@ -9,9 +9,9 @@ import Foundation
 
 class NetworkManager {
     
-    func fetchData( completion: @escaping (FlickrResponseModel) -> Void){
+    func fetchData(text:String, completion: @escaping (FlickrResponseModel) -> Void){
         
-        if let url = URL(string: fetchUrlforSearch().absoluteString){
+        if let url = URL(string: fetchUrlforSearch(searchText: text).absoluteString){
             print("url:  \(url)")
             URLSession.shared.dataTask(with: url) { data,urlResponse, error in
                 if let data =  data{
@@ -28,7 +28,7 @@ class NetworkManager {
     }
     
    /* construct the url for flickr */
-    func fetchUrlforSearch() -> URL{
+    func fetchUrlforSearch(searchText: String) -> URL{
         var components = URLComponents()
         
         components.scheme = "https"
@@ -40,13 +40,13 @@ class NetworkManager {
              URLQueryItem(name: "api_key", value: NetworkURL.api_key),
              URLQueryItem(name: "format", value: NetworkURL.format),
              URLQueryItem(name: "nojsoncallback", value: NetworkURL.nojsoncallback),
-             URLQueryItem(name: "text", value: "cat"),
+             URLQueryItem(name: "text", value: searchText),
             ]
 
         guard let url = components.url else {
             preconditionFailure("Invalid URL string")
         }
-            
+    
         return url
     }
     

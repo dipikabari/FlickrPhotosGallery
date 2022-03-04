@@ -49,6 +49,9 @@
                             <constraint firstItem="HSR-XG-2Ey" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="rfW-CZ-1oy"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="searchImage" destination="HSR-XG-2Ey" id="UMy-jS-5Vx"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
