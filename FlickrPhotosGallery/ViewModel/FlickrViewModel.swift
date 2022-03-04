@@ -18,16 +18,18 @@ class FlickrViewModel {
         self.view = view
     }
     
+    /* get response from api into your defined array*/
     func fetchData(){
-               
-                /* get response from api into your defined array*/
-                networkManager.fetchData{ [weak self] array in
-                    self?.photoArray = array.photos.photo
-                    print(self?.photoArray.count)
-                    print(self?.photoArray[0].title)
-                 }
+        
+       networkManager.fetchData{ [weak self] array in
+       self?.photoArray = array.photos.photo
+       print(self?.photoArray.count)
+       print(self?.photoArray[0].title)
+      }
         
     }
+    
+    
 
 }
 
