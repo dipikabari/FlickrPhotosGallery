@@ -13,21 +13,30 @@ class ViewController: UIViewController {
     @IBOutlet private weak var searchImage: UISearchBar!
     let searchController = UISearchController(searchResultsController: nil)
     
+    @IBOutlet private weak var flickrPhoto: UIImageView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         viewModel = FlickrViewModel(view: self)          //initialize viewModel
         searchImage.delegate = self
+        
     }
-
-
 }
-
+ 
 /* Search bar */
 extension ViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        viewModel.fetchData(text: searchText)
+       // DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
         print("search for \(searchText)")
+        self.viewModel.fetchData(text: searchText)
+        //}
+        DispatchQueue.main.asyncAfter(deadline: .now() + 8) {
+            if(self.viewModel.photoArray.count > 0){
+                self.viewModel.downloadImages()
+                self.flickrPhoto.image = UIImage(data: self.viewModel.imageData)
+            }
+        }
     }
 }
 
@@ -40,3 +49,5 @@ extension ViewController: FlickrViewProtocol {
         present(alert, animated: true, completion: nil)
     }
 }
+
+

@@ -25,7 +25,7 @@ enum NetworkURL {
     
     
     
-    static let baseImageURL = "https://image.tmdb.org/t/p/w500"
+    static let baseImageURL = "https://live.staticflickr.com/"
 }
 
 

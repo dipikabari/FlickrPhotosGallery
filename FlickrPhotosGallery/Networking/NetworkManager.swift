@@ -11,7 +11,8 @@ class NetworkManager {
     
     func fetchData(text:String, completion: @escaping (FlickrResponseModel) -> Void){
         
-        if let url = URL(string: fetchUrlforSearch(searchText: text).absoluteString){
+        guard let url = URL(string: fetchUrlforSearch(searchText: text).absoluteString) else { return }
+            
             print("url:  \(url)")
             URLSession.shared.dataTask(with: url) { data,urlResponse, error in
                 if let data =  data{
@@ -25,10 +26,10 @@ class NetworkManager {
             }
             .resume()
         }
-    }
+    
     
    /* construct the url for flickr */
-    func fetchUrlforSearch(searchText: String) -> URL{
+    func fetchUrlforSearch(searchText: String) -> URL {
         var components = URLComponents()
         
         components.scheme = "https"
@@ -50,6 +51,8 @@ class NetworkManager {
         return url
     }
     
+    
+
     func getImageData(from url: String, completion: @escaping (Data?) -> Void) {
             guard let url = URL(string: url) else { completion(nil)
                 return
@@ -60,5 +63,5 @@ class NetworkManager {
             }
             .resume()
     }
-    
+
 }
