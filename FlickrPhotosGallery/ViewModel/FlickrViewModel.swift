@@ -49,7 +49,8 @@ class FlickrViewModel {
              networkManager.getImageData(from: url) { [weak self] data in
                 if let data = data {
                     self?.imageData = data
-                    self?.imageArray[index] = data
+                    self?.imageArray.append(data)
+                    
                 }
             }
         }
