@@ -47,6 +47,10 @@ extension ViewController: UISearchBarDelegate {
             }
         }
     }
+    
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+        self.collectionView.reloadData()
+    }
 }
 
 extension ViewController: UICollectionViewDataSource {

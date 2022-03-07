@@ -45,7 +45,7 @@ class FlickrViewModel {
         }
         
         for (index, url) in completeUrlArray.enumerated() {
-             print(url)
+            // print(url)
              networkManager.getImageData(from: url) { [weak self] data in
                 if let data = data {
                     self?.imageData = data
