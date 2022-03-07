@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		845F12B327D519C300D4688A /* FlickrPhotosCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845F12B227D519C300D4688A /* FlickrPhotosCollectionViewCell.swift */; };
 		847E2B4427D2247B001C5999 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847E2B4327D2247B001C5999 /* AppDelegate.swift */; };
 		847E2B4627D2247B001C5999 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847E2B4527D2247B001C5999 /* SceneDelegate.swift */; };
 		847E2B4827D2247B001C5999 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847E2B4727D2247B001C5999 /* ViewController.swift */; };
@@ -21,6 +22,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		845F12B227D519C300D4688A /* FlickrPhotosCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlickrPhotosCollectionViewCell.swift; sourceTree = "<group>"; };
 		847E2B4027D2247B001C5999 /* FlickrPhotosGallery.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FlickrPhotosGallery.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		847E2B4327D2247B001C5999 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		847E2B4527D2247B001C5999 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -101,6 +103,7 @@
 			children = (
 				847E2B4927D2247B001C5999 /* Main.storyboard */,
 				847E2B4727D2247B001C5999 /* ViewController.swift */,
+				845F12B227D519C300D4688A /* FlickrPhotosCollectionViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -185,6 +188,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				845F12B327D519C300D4688A /* FlickrPhotosCollectionViewCell.swift in Sources */,
 				847E2B4827D2247B001C5999 /* ViewController.swift in Sources */,
 				847E2B4427D2247B001C5999 /* AppDelegate.swift in Sources */,
 				847E2B5E27D23234001C5999 /* NetworkManager.swift in Sources */,

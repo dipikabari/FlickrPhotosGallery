@@ -36,7 +36,7 @@ class FlickrViewModel {
     */
     
     /* download image form imageurl */
-    func downloadImages() -> Data {
+    func downloadImages()  {
         print("downloadImage()")
 
         let baseUrl = NetworkURL.baseImageURL
@@ -46,15 +46,14 @@ class FlickrViewModel {
         
         for (index, url) in completeUrlArray.enumerated() {
              print(url)
-        
              networkManager.getImageData(from: url) { [weak self] data in
                 if let data = data {
                     self?.imageData = data
-                   // self?.imageArray[index] = data
+                    self?.imageArray[index] = data
                 }
             }
         }
-         return self.imageData
+        // return self.imageData
     }
     
    

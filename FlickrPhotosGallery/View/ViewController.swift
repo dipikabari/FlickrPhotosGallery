@@ -8,19 +8,26 @@
 import UIKit
 
 class ViewController: UIViewController {
+    
     private var viewModel: FlickrViewModel!
 
     @IBOutlet private weak var searchImage: UISearchBar!
     let searchController = UISearchController(searchResultsController: nil)
-    
-    @IBOutlet private weak var flickrPhoto: UIImageView!
+
+    @IBOutlet private weak var collectionView: UICollectionView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         viewModel = FlickrViewModel(view: self)          //initialize viewModel
         searchImage.delegate = self
-        
+                
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        collectionView.dataSource = self
+
     }
 }
  
@@ -34,11 +41,30 @@ extension ViewController: UISearchBarDelegate {
         DispatchQueue.main.asyncAfter(deadline: .now() + 8) {
             if(self.viewModel.photoArray.count > 0){
                 self.viewModel.downloadImages()
-                self.flickrPhoto.image = UIImage(data: self.viewModel.imageData)
+               // self.flickrPhoto.image = UIImage(data: self.viewModel.imageData)
+                self.collectionView.reloadData()
+
             }
         }
     }
 }
+
+extension ViewController: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        print("numberOfItemsInSection  \(viewModel.imageArray.count)")
+        return viewModel.imageArray.count
+    }
+     
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "customCell", for: indexPath) as! FlickrPhotosCollectionViewCell
+        
+        cell.flickrPhoto.image = UIImage(data: self.viewModel.imageArray[indexPath.row])
+        
+        return cell
+    }
+     
+}
+
 
 /* Conform to protocol */
 extension ViewController: FlickrViewProtocol {
