@@ -7,6 +7,7 @@
 
 import Foundation
 
-protocol FlickrViewProtocol {
+protocol FlickrViewProtocol: AnyObject {
     func displayError(_ message: String)
+    func refreshUI()
 }

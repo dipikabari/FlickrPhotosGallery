@@ -7,7 +7,8 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class PhotoSearchViewController: UIViewController {
+    
     
     private var viewModel: FlickrViewModel!
 
@@ -19,32 +20,19 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        viewModel = FlickrViewModel(view: self)          //initialize viewModel
+        viewModel = FlickrViewModel(delegate: self)          //initialize viewModel
         searchImage.delegate = self
-                
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
         collectionView.dataSource = self
 
     }
 }
- 
-/* Search bar */
-extension ViewController: UISearchBarDelegate {
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-       // DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-        print("search for \(searchText)")
-        self.viewModel.fetchData(text: searchText)
-        //}
-        DispatchQueue.main.asyncAfter(deadline: .now() + 8) {
-            if(self.viewModel.photoArray.count > 0){
-                self.viewModel.downloadImages()
-               // self.flickrPhoto.image = UIImage(data: self.viewModel.imageData)
-                self.collectionView.reloadData()
 
-            }
+/* Search bar */
+extension PhotoSearchViewController: UISearchBarDelegate {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+            self.viewModel.fetchData(text: searchText)
         }
     }
     
@@ -53,17 +41,17 @@ extension ViewController: UISearchBarDelegate {
     }
 }
 
-extension ViewController: UICollectionViewDataSource {
+extension PhotoSearchViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        print("numberOfItemsInSection  \(viewModel.imageArray.count)")
-        return viewModel.imageArray.count
+        return viewModel.photosCount
     }
      
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "customCell", for: indexPath) as! FlickrPhotosCollectionViewCell
         
-        cell.flickrPhoto.image = UIImage(data: self.viewModel.imageArray[indexPath.row])
-        
+        if let imageUrl = viewModel.getImageUrl(index: indexPath.row) {
+            cell.flickrPhoto.loadImageFromUrl(urlString:imageUrl )
+        }
         return cell
     }
      
@@ -71,13 +59,24 @@ extension ViewController: UICollectionViewDataSource {
 
 
 /* Conform to protocol */
-extension ViewController: FlickrViewProtocol {
+extension PhotoSearchViewController: FlickrViewProtocol {
     func displayError(_ message: String) {
+        DispatchQueue.main.async {
+
         let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
         let doneButton = UIAlertAction(title: "Done", style: .default, handler: nil)
         alert.addAction(doneButton)
-        present(alert, animated: true, completion: nil)
+            self.present(alert, animated: true, completion: nil)
+        }
     }
+    
+    func refreshUI() {
+        DispatchQueue.main.async {
+            self.collectionView.reloadData()
+        }
+    }
+
 }
+
 
 

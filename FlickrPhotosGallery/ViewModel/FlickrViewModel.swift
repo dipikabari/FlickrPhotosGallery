@@ -9,54 +9,51 @@ import Foundation
 
 class FlickrViewModel {
     
-    private let networkManager = NetworkManager()
-    private let view: FlickrViewProtocol
+    private let networkManager: Networkable
+    
+    private weak var delegate: FlickrViewProtocol?
 
-    var photoArray = [Photo]()
-    var imageArray = [Data]()
-    var imageData = Data()
-    init(view: FlickrViewProtocol){
-        self.view = view
+    private var photoArray = [Photo]()
+    
+    var photosCount:Int {
+        return photoArray.count
+    }
+    
+    init(delegate: FlickrViewProtocol, networkManager:Networkable = NetworkManager()){
+        self.delegate = delegate
+        self.networkManager = networkManager
     }
     
     /* get response from api into your defined array*/
     func fetchData(text: String){
-      
-      DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
-         self.networkManager.fetchData(text: text) { [weak self] array in
-         self?.photoArray = array.photos.photo
-         print(self?.photoArray.count)
-       }
           
-      }
+          self.networkManager.fetchData(text: text) { [weak self] response, error in
+              
+              guard let response = response , error == nil else {
+                  self?.delegate?.displayError("Failed to Search, Pls try again!")
+                  return
+              }
+
+              self?.photoArray = response.photos.photo
+              
+              DispatchQueue.main.async {
+                  self?.delegate?.refreshUI()
+              }
+          }
+      
+      
   }
     
-    /* Construct the image url from json data
-     https://live.staticflickr.com/<server>/<id>_<secret>_w.jpg
-    */
-    
-    /* download image form imageurl */
-    func downloadImages()  {
-        print("downloadImage()")
-
-        let baseUrl = NetworkURL.baseImageURL
-        let completeUrlArray = photoArray.map {
-            "\(baseUrl)\($0.server)/\($0.id)_\($0.secret)_w.jpg"
+    func getImageUrl(index: Int) -> String? {
+        
+        if index < photosCount && index >= 0  {
+            let photo = photoArray[index]
+          return "\(NetworkURL.baseImageURL)\(photo.server)/\(photo.id)_\(photo.secret)_w.jpg"
         }
         
-        for (index, url) in completeUrlArray.enumerated() {
-            // print(url)
-             networkManager.getImageData(from: url) { [weak self] data in
-                if let data = data {
-                    self?.imageData = data
-                    self?.imageArray.append(data)
-                    
-                }
-            }
-        }
-        // return self.imageData
+        return nil
     }
-    
-   
+       
 }
+
 

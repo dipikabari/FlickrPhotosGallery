@@ -2,25 +2,28 @@
 //  NetworkManager.swift
 //  FlickrPhotosGallery
 //
-//  Created by Dipika Bari on 04/03/2022.
+//  Created by Dipika Bari on 08/03/2022.
 //
 
 import Foundation
 
-class NetworkManager {
+protocol Networkable {
+    func fetchData(text:String, completion: @escaping (FlickrResponseModel?, Error?) -> Void)
+}
+
+class NetworkManager: Networkable {
     
-    func fetchData(text:String, completion: @escaping (FlickrResponseModel) -> Void){
+    func fetchData(text:String, completion: @escaping (FlickrResponseModel?, Error?) -> Void){
         
         guard let url = URL(string: fetchUrlforSearch(searchText: text).absoluteString) else { return }
             
-            print("url:  \(url)")
             URLSession.shared.dataTask(with: url) { data,urlResponse, error in
                 if let data =  data{
                     do {
                         let result: FlickrResponseModel = try JSONDecoder().decode(FlickrResponseModel.self, from: data)
-                        completion(result)
+                        completion(result, nil)
                     }catch let error {
-                        print(error)
+                        completion(nil, error)
                     }
                  }
             }

@@ -2,8 +2,9 @@
 //  NetworkUrl.swift
 //  FlickrPhotosGallery
 //
-//  Created by Dipika Bari on 04/03/2022.
+//  Created by Dipika Bari on 08/03/2022.
 //
+
 /*
    https://www.flickr.com/services/rest/
    ?method=flickr.photos.search
@@ -22,11 +23,5 @@ enum NetworkURL {
     static let api_key = "3af99bda83cc336f598271e144587b58"
     static let format = "json"
     static let nojsoncallback = "1"
-    
-    
-    
     static let baseImageURL = "https://live.staticflickr.com/"
 }
-
-
-
